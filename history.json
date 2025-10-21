@@ -1,0 +1,82 @@
+{
+  "billy@gmail.com": [
+    {
+      "filename": "6detk.mp3",
+      "timestamp": "2025-10-21 17:31:36",
+      "duration": 6.27,
+      "label_pred": "COPD"
+    },
+    {
+      "filename": "recorded.wav",
+      "timestamp": "2025-10-21 17:32:10",
+      "duration": 3.54,
+      "label_pred": "COPD"
+    },
+    {
+      "filename": "27.wav",
+      "timestamp": "2025-10-21 17:34:40",
+      "duration": 125.27,
+      "label_pred": "COPD"
+    },
+    {
+      "filename": "26.wav",
+      "timestamp": "2025-10-21 17:44:12",
+      "duration": 111.5,
+      "label_pred": "COPD"
+    },
+    {
+      "filename": "28.wav",
+      "timestamp": "2025-10-21 17:46:55",
+      "duration": 88.0,
+      "label_pred": "COPD"
+    },
+    {
+      "filename": "6detk.mp3",
+      "timestamp": "2025-10-21 20:20:01",
+      "duration": 6.27,
+      "label_pred": "COPD"
+    },
+    {
+      "filename": "6detk.mp3",
+      "timestamp": "2025-10-21 20:40:51",
+      "duration": 6.27,
+      "label_pred": "COPD"
+    },
+    {
+      "filename": "6detk.mp3",
+      "timestamp": "2025-10-21 20:44:00",
+      "duration": 6.17,
+      "label_pred": "COPD"
+    },
+    {
+      "filename": "6detk.mp3",
+      "timestamp": "2025-10-21 20:54:31",
+      "duration": 6.17,
+      "label_pred": "COPD"
+    },
+    {
+      "filename": "101_1b1_Al_sc_Meditron (1).wav",
+      "timestamp": "2025-10-21 20:54:45",
+      "duration": 20.0,
+      "label_pred": "Bronchiectasis"
+    },
+    {
+      "filename": "6detk.mp3",
+      "timestamp": "2025-10-21 21:01:03",
+      "duration": 6.17,
+      "label_pred": "COPD"
+    },
+    {
+      "filename": "recorded.wav",
+      "timestamp": "2025-10-21 21:05:38",
+      "duration": 3.42,
+      "label_pred": "COPD"
+    },
+    {
+      "filename": "18.wav",
+      "timestamp": "2025-10-21 21:05:51",
+      "duration": 64.67,
+      "label_pred": "COPD"
+    }
+  ]
+}

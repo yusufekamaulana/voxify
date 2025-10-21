@@ -1,0 +1,852 @@
+/* Gaya Dasar & Font */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Poppins', 'Montserrat', sans-serif;
+    background-color: #F8F9FA;
+    overflow: hidden;
+}
+
+/* --- Struktur Utama --- */
+.auth-page-body {
+    background-color: #f1f1f1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 100vh;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    overflow-y: auto; 
+}
+/* === LOGIN & SIGNUP PAGE LOGO CENTER TOP === */
+.auth-logo {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  height: auto;
+}
+
+.auth-page-body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #a8dff7, #e3f2fd, #b3e5fc);
+  background-size: 400% 400%;
+  animation: breatheBackground 12s ease-in-out infinite;
+}
+
+@keyframes breatheBackground {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+/* === FIX BODY SHIFT WHEN SWEETALERT APPEARS === */
+body.swal2-shown {
+  overflow-y: hidden !important; /* prevent scroll shifting */
+}
+
+body.swal2-height-auto {
+  height: 100vh !important; /* keep flex centering consistent */
+}
+
+.auth-page-body.swal2-shown,
+.auth-page-body.swal2-height-auto {
+  height: 100vh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+
+
+/* --- Halaman Login & Sign Up --- */
+.auth-box {
+  background: white;
+  padding: 3rem 4rem;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  min-height: 420px;       /* ensures both same height */
+  text-align: center;
+  margin-top: 8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.auth-title {
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.auth-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-bottom-text {
+  margin-top: 1.5rem;
+  color: #555;
+  font-size: 0.95rem;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+.auth-bottom-text a {
+  color: #53abe2;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.auth-bottom-text a:hover {
+  color: #4292c3;
+  text-decoration: underline;
+}
+
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid #000;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
+    text-align: left;
+    padding-left: 1.5rem;
+}
+.auth-main-btn {
+    background-color: #53abe2;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Montserrat', sans-serif;
+}
+.auth-main-btn:hover {
+    background-color: #4292c3;
+}
+.auth-forgot-password {
+    color: #737373;
+    font-size: 0.9rem;
+    text-decoration: none;
+    margin-bottom: 2rem;
+}
+.auth-secondary-btn {
+    background-color: #53abe2;
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 584px;
+    box-sizing: border-box;
+    transition: background-color 0.3s;
+    font-family: 'Montserrat', sans-serif;
+}
+.auth-secondary-btn:hover {
+    background-color: #4292c3;
+}
+.auth-title {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+.auth-bottom-text {
+    margin-top: 1.5rem;
+    color: #737373;
+    font-size: 0.9rem;
+}
+.auth-bottom-link {
+    color: #53abe2;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+/* --- Halaman Disclaimer --- */
+.disclaimer-box {
+    background-color: #e5f6fc;
+    border-radius: 25px;
+    padding: 1.8rem;
+    width: 90%;
+    max-width: 700px;
+    box-sizing: border-box;
+}
+.disclaimer-title-new {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1.2rem;
+}
+.disclaimer-item-new {
+    background-color: #d9d9d9;
+    border-radius: 15px;
+    padding: 0.8rem 1.2rem;
+    margin-bottom: 0.8rem;
+}
+.disclaimer-item-new h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+.disclaimer-item-new p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0;
+}
+.disclaimer-next-btn {
+    background-color: #53abe2;
+    color: white;
+    border: none;
+    padding: 0.7rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 220px;
+    transition: background-color 0.3s;
+    font-family: 'Montserrat', sans-serif;
+}
+.disclaimer-next-btn:hover {
+    background-color: #4292c3;
+}
+
+/* --- Halaman Konten Gambar (Tracking, Graph, Knowledge) --- */
+.content-card-container {
+    width: 90%;
+    max-width: 450px;
+    margin-bottom: 1rem;
+}
+.content-card-image {
+    width: 100%;
+    height: auto;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Tombol Next (Untuk Halaman Konten Gambar) --- */
+.next-btn {
+    margin-top: 1rem; /* Beri sedikit jarak dari atas */
+    align-self: flex-end; /* Posisikan ke kanan */
+    background-color: #1e88e5;
+    color: white;
+    text-decoration: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+.next-btn:hover {
+    background-color: #1565c0;
+}
+
+/* === HALAMAN HOME DASHBOARD BARU === */
+.home-dashboard-body {
+    background-color: #eaf6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+}
+.home-dashboard-container {
+    background-color: white;
+    width: 95%;
+    height: 95vh;
+    max-width: 1600px;
+    max-height: 900px;
+    border-radius: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+.home-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.header-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+.header-icon svg {
+    width: 32px;
+    height: 32px;
+    color: #333;
+}
+.header-icons-right {
+    display: flex;
+    gap: 1rem;
+}
+.home-main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.home-main-logo {
+    max-width: 400px;
+    width: 40%;
+    height: auto;
+    margin-bottom: 2rem;
+}
+.home-primary-btn {
+    margin-bottom: 1rem; 
+}
+.home-primary-btn, .home-secondary-btn {
+    background-color: #53abe2;
+    color: white;
+    border: none;
+    padding: 0.8rem 1rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+    max-width: 300px;
+    transition: background-color 0.3s;
+    font-family: 'Montserrat', sans-serif;
+}
+.home-primary-btn:hover, .home-secondary-btn:hover {
+    background-color: #4292c3;
+}
+
+/* === TAMBAHKAN/GANTI GAYA UNTUK POPUP DI BAWAH INI === */
+
+.popup-wrapper {
+    position: relative; /* Ini adalah kunci utamanya */
+    display: inline-block;
+}
+
+.popup-box {
+    display: none; /* Tersembunyi secara default */
+    position: absolute;
+    top: 100%; /* Posisi persis di bawah tombol */
+    right: 0; /* Rata kanan dengan tombol */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    z-index: 100; /* Pastikan di atas konten lain */
+    margin-top: 10px; /* Jarak kecil antara tombol dan popup */
+}
+
+/* Penyesuaian untuk setiap popup */
+.profile-popup {
+    width: 200px;
+}
+
+.language-popup {
+    width: 220px;
+}
+
+.popup-username {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-popup .popup-content {
+    height: 100px; /* Placeholder */
+    margin-bottom: 1rem;
+}
+
+.profile-popup a {
+    text-decoration: underline;
+    color: #333;
+    margin-top: 0.5rem;
+    display: block; /* Agar setiap link di baris baru */
+}
+
+.language-popup ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.language-popup li {
+    margin-bottom: 0.5rem;
+}
+
+.language-popup a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 0.5rem;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.language-popup a:hover {
+    background-color: #f0f0f0;
+}
+
+.language-popup a.active {
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+
+/* === HALAMAN MEASURING (measuring.html) === */
+
+/* Mengatur ulang body khusus untuk halaman ini */
+.measure-page-body {
+  background: #F8F9FA;
+
+  /* Tambahan agar konten di tengah */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+
+  /* Hilangkan margin default browser */
+  margin: 0;
+  padding: 0;
+}
+/* Sembunyikan layout lama di halaman ini */
+.measure-page-body .background-waves, 
+.measure-page-body .main-container {
+    display: none;
+}
+/* Kontainer utama untuk halaman measuring */
+/* Kontainer utama yang ditampilkan di tengah */
+.measure-container {
+  max-width: 900px;
+  width: 90%;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  /* Hapus margin auto, karena flex parent sudah memusatkan */
+}
+/* Header di halaman measuring */
+.measure-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: white;
+    color: #333;
+}
+.measure-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+.back-arrow {
+    font-size: 2rem;
+    text-decoration: none;
+    color: #555;
+}
+.help-icon {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Bagian atas yang berwarna biru */
+.measure-top-section {
+    background-color: #36A2EB;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+/* Tombol Mikrofon */
+.mic-btn {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: white;
+    border: 10px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #36A2EB;
+    transition: all 0.3s ease;
+}
+.mic-btn.active {
+  background-color: #28a745;
+  color: white;
+  border-color: rgba(255, 255, 255, 0.5);
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+  70%  { box-shadow: 0 0 0 20px rgba(40, 167, 69, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+}
+
+/* Kotak statistik live */
+.live-stats {
+    display: flex;
+    gap: 1rem;
+}
+.stat-box {
+    background-color: white;
+    border-radius: 15px;
+    padding: 1rem;
+    text-align: center;
+    color: #555;
+    width: 120px;
+}
+.stat-box p {
+    margin: 0;
+    font-size: 1.2rem;
+}
+.stat-box span {
+    font-size: 0.9rem;
+}
+
+/* Kontainer untuk animasi gelombang */
+.waveform-container {
+    flex-grow: 1;
+    height: 80px;
+}
+#waveformCanvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* Bagian bawah yang berwarna putih */
+.measure-bottom-section {
+    background-color: #f0f4f8;
+    padding: 2rem;
+    text-align: center;
+}
+.measure-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.status-logo {
+    width: 80px;
+    height: auto;
+    transition: filter 0.5s ease;
+}
+.status-text {
+    text-align: center;
+}
+.status-text h3, .status-text p {
+    margin: 0;
+}
+.status-hint {
+    color: #888;
+}
+.green-text {
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* === Gaya untuk Measure Tips Popup === */
+
+/* Wrapper untuk menempatkan popup relatif terhadap tombol */
+.popup-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Kotak popup utama */
+.popup-box {
+    display: none; /* Tersembunyi secara default */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    z-index: 100;
+    margin-top: 10px;
+}
+
+.measure-tips-popup {
+    width: 450px; /* Lebar disesuaikan */
+    max-width: 90vw;
+    padding: 1.5rem;
+    background-color: #eaf6ff;
+    border: 1px solid #cde7fa;
+}
+
+/* Header baru untuk popup */
+.measure-tips-popup .popup-header {
+    display: flex;
+    align-items: center; /* Sejajarkan judul dan gambar */
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.measure-tips-popup .popup-title {
+    font-size: 1.8rem; /* Judul diperbesar */
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+.measure-tips-popup .popup-image {
+    width: 150px; /* Ukuran gambar dikecilkan */
+    height: auto;
+    border-radius: 10px;
+    margin-left: auto; /* Mendorong gambar ke kanan */
+}
+
+/* Daftar tips */
+.measure-tips-popup .popup-tips-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.measure-tips-popup .popup-tips-list li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    font-size: 0.9rem; /* Ukuran teks tips sedikit dikecilkan */
+    color: #555;
+}
+
+.measure-tips-popup .tip-number {
+    background-color: #1e88e5;
+    color: white;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-right: 0.8rem;
+    flex-shrink: 0; 
+}
+
+/* Menggunakan kembali style .next-btn untuk tombol close */
+.measure-tips-popup .next-btn {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    margin-top: 1.5rem; /* Beri jarak dari list */
+}
+
+/* === HALAMAN REPORT DASHBOARD BARU (report.html) === */
+.report-result-page-body {
+    background-color: #DDE1E4; /* Warna abu-abu terang */
+    font-family: 'Poppins', sans-serif;
+    overflow-y: auto;
+    padding: 2rem; /* Tambahkan padding agar tidak terlalu mepet tepi */
+    box-sizing: border-box;
+}
+
+.report-result-container {
+    max-width: 1400px; /* Lebar maksimum kontainer */
+    margin: 0 auto; /* Tengah-kan kontainer */
+    background-color: transparent; /* Kontainer utama transparan */
+    box-shadow: none; /* Hilangkan shadow default jika ada */
+}
+
+.report-result-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 1.5rem;
+    color: #333;
+    position: relative; /* Untuk positioning logo */
+}
+
+.report-result-header .header-icon {
+    font-size: 2rem; /* Ukuran ikon home */
+    color: #333;
+    margin-right: 1rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.report-result-header .page-title {
+    font-size: 2rem; /* Ukuran judul "Result" */
+    font-weight: 700;
+    margin: 0;
+}
+
+.header-logo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px; /* Ukuran logo di pojok */
+    height: auto;
+}
+
+.report-result-content {
+    display: flex;
+    gap: 1.5rem; /* Jarak antar kolom */
+}
+
+.report-result-left,
+.report-result-right {
+    flex: 1; /* Biarkan kolom mengambil ruang yang sama */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Jarak antar card dalam kolom */
+}
+
+.result-card {
+    background-color: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+}
+
+/* Disease Probability Analysis Card */
+.disease-probability h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.probability-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 kolom untuk item probabilitas */
+    gap: 1rem 2rem; /* Jarak antar item */
+}
+
+.probability-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 1rem;
+    color: #555;
+}
+
+.probability-item img {
+    width: 40px; /* Ukuran ikon penyakit */
+    height: auto;
+}
+
+/* Style untuk Pneumonia yang di-bold */
+.pneumonia-highlight strong {
+    font-weight: 700;
+    color: #000;
+}
+
+/* Recording Details Card (Kiri Bawah) */
+.recording-details {
+    flex-grow: 1; /* Agar mengisi sisa ruang */
+}
+.recording-details h2 {
+    font-size: 1.5rem; font-weight: 700; margin-top: 0; margin-bottom: 1.5rem; color: #333;
+}
+.details-list p {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    margin: 0.8rem 0;
+    color: #555;
+}
+.details-list p span {
+    font-weight: 500;
+    color: #888;
+}
+
+/* Disease Detail Card (Kanan Atas) */
+.disease-detail {
+    background-color: white; /* Warna diganti */
+    position: relative;
+}
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.disease-detail h2 {
+    font-size: 1.8rem; font-weight: 700; margin: 0; color: #333;
+}
+.detail-action-icon {
+    color: #53abe2;
+    cursor: pointer;
+}
+.detail-action-icon svg {
+    width: 32px; height: 32px;
+}
+.disease-detail p {
+    font-size: 0.95rem; line-height: 1.6; color: #555; margin-bottom: 1rem;
+}
+/* Tanda panah biru dihapus */
+.detail-arrow { display: none; }
+
+/* Personalized Advices Card (Kanan Bawah) */
+.advices {
+    flex-grow: 1; /* Agar mengisi sisa ruang */
+}
+.advices h2 {
+    font-size: 1.5rem; font-weight: 700; margin-top: 0; margin-bottom: 1rem; color: #333;
+}
+.advices .disclaimer-text {
+    font-size: 0.9rem; color: #dc3545; margin-bottom: 1rem; line-height: 1.4;
+}
+.advices p:last-of-type {
+    font-size: 0.95rem; line-height: 1.6; color: #555; margin-bottom: 0;
+}

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voxify - Home</title>
+
+  <link rel="icon" href="{{ url_for('static', filename='images/voxify_logo.png') }}?v=2" type="image/png" sizes="32x32" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Background animasi lembut */
+    .home-dashboard-body {
+      background: linear-gradient(135deg, #a8dff7, #e3f2fd, #b3e5fc);
+      background-size: 400% 400%;
+      animation: breatheBackground 12s ease-in-out infinite;
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+    }
+    @keyframes breatheBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Tombol utama */
+    .home-primary-btn {
+      background-color: #53abe2;
+      color: #fff;
+      border: none;
+      border-radius: 40px;
+      padding: 1rem 3rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(83,171,226,0.4);
+      transition: transform 0.3s ease;
+      animation: pulse 3s ease-in-out infinite;
+      margin-bottom: 1rem;
+    }
+    @keyframes pulse {
+      0%,100%{transform:scale(1);box-shadow:0 6px 15px rgba(83,171,226,0.4);}
+      50%{transform:scale(1.06);box-shadow:0 8px 22px rgba(83,171,226,0.6);}
+    }
+    .home-primary-btn:hover {
+      transform: scale(1.08);
+      background-color: #4292c3;
+    }
+
+    /* Tombol History */
+    .home-secondary-btn {
+      background-color: white;
+      color: #53abe2;
+      border: 2px solid #53abe2;
+      border-radius: 40px;
+      padding: 1rem 3rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .home-secondary-btn:hover {
+      background-color: #53abe2;
+      color: white;
+    }
+
+    /* Popup History floating */
+    .history-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      width: 600px;
+      max-height: 500px;
+      overflow-y: auto;
+      display: none;
+      padding: 1.5rem;
+      font-family: 'Montserrat', sans-serif;
+      z-index: 1000;
+      animation: popupFade 0.3s ease;
+    }
+    @keyframes popupFade {
+      from { opacity: 0; transform: translate(-50%, -48%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    .popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #53abe2;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .popup-header h3 {
+      margin: 0;
+      color: #53abe2;
+      font-weight: 700;
+    }
+
+    #close-history {
+      font-size: 1.3rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* Tabel History */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    th, td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #eee;
+      font-size: 0.95rem;
+    }
+    th {
+      background-color: #e3f2fd;
+      color: #333;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    tr:hover {
+      background-color: #f7fbff;
+    }
+
+    /* Popup profil */
+    .profile-popup {
+      position: absolute;
+      top: 45px;
+      right: 10px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      padding: 0.8rem 1rem;
+      display: none;
+      z-index: 2000;
+      width: 160px;
+    }
+    .profile-popup p {
+      margin: 0 0 8px 0;
+      font-weight: 600;
+      color: #333;
+    }
+    .profile-popup a, .profile-popup button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      color: #53abe2;
+      font-weight: 600;
+      padding: 5px 0;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .profile-popup a:hover, .profile-popup button:hover {
+      color: #2e8dc2;
+    }
+  </style>
+</head>
+
+<body class="home-dashboard-body">
+  <div class="home-dashboard-container">
+    <header class="home-header">
+      <a href="{{ url_for('home') }}" class="header-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146ZM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5Z"/>
+        </svg>
+      </a>
+      <div class="header-icons-right">
+        <button id="profile-btn" class="header-icon">👤</button>
+        <div class="profile-popup" id="profile-popup">
+          <p>{{ username }}</p>
+          <a href="#">My Profile</a>
+          <button id="logout-btn">Sign Out</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="home-main-content" style="text-align:center;">
+      <img src="{{ url_for('static', filename='images/voxify_logo.png') }}" alt="Voxify Logo" class="home-main-logo">
+      <a href="{{ url_for('measuring') }}" class="home-primary-btn">New Recording</a>
+      <button id="history-btn" class="home-secondary-btn">History</button>
+    </main>
+  </div>
+
+  <!-- Popup History -->
+  <div id="history-popup" class="history-popup">
+    <div class="popup-header">
+      <h3>History</h3>
+      <span id="close-history">×</span>
+    </div>
+    <div class="popup-content">
+      <table id="history-table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Filename</th>
+            <th>Duration (s)</th>
+            <th>Timestamp</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody id="history-body">
+          <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const historyBtn = document.getElementById("history-btn");
+    const popup = document.getElementById("history-popup");
+    const closeBtn = document.getElementById("close-history");
+    const tbody = document.getElementById("history-body");
+
+    historyBtn.addEventListener("click", async () => {
+      popup.style.display = "block";
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Loading...</td></tr>`;
+
+      try {
+        const res = await fetch("/history");
+        const data = await res.json();
+        tbody.innerHTML = "";
+
+        if (data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No recordings yet.</td></tr>`;
+        } else {
+          data.slice().reverse().forEach((item, i) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${i + 1}</td>
+              <td>${item.filename}</td>
+              <td>${item.duration}</td>
+              <td>${item.timestamp}</td>
+              <td>${item.label_pred || 'N/A'}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Error loading history.</td></tr>`;
+      }
+    });
+
+    closeBtn.addEventListener("click", () => {
+      popup.style.display = "none";
+    });
+
+    // ==== PROFILE BUTTON POPUP ====
+    const profileBtn = document.getElementById("profile-btn");
+    const profilePopup = document.getElementById("profile-popup");
+    const logoutBtn = document.getElementById("logout-btn");
+
+    profileBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profilePopup.style.display =
+        profilePopup.style.display === "block" ? "none" : "block";
+    });
+
+    // Klik di luar popup → tutup
+    window.addEventListener("click", () => {
+      profilePopup.style.display = "none";
+    });
+    profilePopup.addEventListener("click", (e) => e.stopPropagation());
+
+    // ==== LOGOUT FUNCTION ====
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        await fetch("/api/logout", { method: "POST" });
+        window.location.href = "/login";
+      } catch (err) {
+        alert("Logout failed. Try again.");
+      }
+    });
+  });
+  </script>
+</body>
+</html>

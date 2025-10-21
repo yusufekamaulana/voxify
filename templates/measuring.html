@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Voxify - Measuring</title>
+
+  <link
+    rel="icon"
+    href="{{ url_for('static', filename='images/voxify_logo.png') }}?v=2"
+    type="image/png"
+    sizes="32x32"
+  />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* ==== Layout Centering ==== */
+    body.measure-page-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #F8F9FA;
+      margin: 0;
+      padding: 0;
+    }
+
+    .measure-container {
+      max-width: 900px;
+      width: 90%;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+
+    .measure-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .header-icon {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #212529;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+
+    .header-icon:hover { color: #007bff; }
+
+    .popup-wrapper {
+      position: relative;
+    }
+
+    .popup-box {
+      display: none;
+      position: absolute;
+      top: 120%;
+      right: 0;
+      width: 280px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      padding: 1rem;
+      z-index: 100;
+    }
+
+    .popup-box.active { display: block; }
+
+    .popup-title { margin-top: 0; }
+
+    .popup-image {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .popup-tips-list { padding-left: 1.2rem; }
+    .popup-tips-list li { margin-bottom: 0.75rem; }
+
+    /* ==== Buttons (Mic + Upload) ==== */
+    .mic-button-container {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .mic-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #e9ecef;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .mic-btn:hover { background: #dee2e6; }
+    .mic-btn.active {
+      background-color: #28a745;
+      color: white;
+      animation: pulse 1.5s infinite;
+    }
+
+    .mic-btn svg { width: 36px; height: 36px; }
+
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.6); }
+      70%  { box-shadow: 0 0 0 20px rgba(40, 167, 69, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+    }
+
+    /* ==== Stats + Canvas ==== */
+    .live-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 1.5rem;
+    }
+
+    .stat-box {
+      text-align: center;
+      color: #212529;
+    }
+
+    .waveform-container {
+      margin-top: 1.5rem;
+      height: 120px;
+      background: rgba(0,0,0,0.05);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    canvas#waveformCanvas { width: 100%; height: 100%; }
+
+    /* ==== Status Section ==== */
+    .measure-status {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2rem;
+      text-align: center;
+      color: #212529;
+    }
+
+    .status-logo { width: 60px; margin-bottom: 0.75rem; }
+
+    .status-hint {
+      text-align: center;
+      color: #6c757d;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    .green-text { color: #28a745; font-weight: 500; }
+
+    /* ==== SweetAlert2 Styling ==== */
+    .swal2-popup {
+      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      border-radius: 14px;
+    }
+
+    .swal2-title { font-weight: 600; }
+  </style>
+</head>
+
+<body class="measure-page-body">
+  <div class="measure-container">
+    <header class="measure-header">
+      <!-- Home Button -->
+      <a href="{{ url_for('home') }}" class="header-icon" aria-label="Home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146Z"/>
+        </svg>
+      </a>
+
+      <h1>Measure</h1>
+
+      <!-- Measure Tips Popup -->
+      <div class="popup-wrapper">
+        <button id="tips-btn" class="header-icon" aria-label="Measure Tips">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.065-1.192 1.985v.1c.01.2.164.316.351.316h.312c.2 0 .354-.124.367-.312v-.004c-.013-.886.544-1.223 1.047-1.513.6-.36.914-.73 1.044-1.485.104-.627.138-1.01.036-1.444-.186-.75-.92-1.3-1.98-1.3a4.99 4.99 0 0 0-1.524.27c-.354.18-.63.478-.89.817l-.015.025-.014.025zm2.387 6.227c-.255-.08-.45-.29-.45-.58v-.403c0-.29.195-.5.45-.58h.5c.255.08.45.29.45.58v.403c0 .29-.195.5-.45.58h-.5z"/>
+          </svg>
+        </button>
+        <div class="popup-box" id="measure-tips-popup">
+          <div class="popup-header">
+            <h3 class="popup-title">Measure Tips</h3>
+            <img src="{{ url_for('static', filename='images/measure_tips.png') }}" alt="Measure Tips UI" class="popup-image">
+          </div>
+          <ol class="popup-tips-list">
+            <li><span class="tip-number"></span> Hold your smartphone close to the source of breathing sound. Tap the Voice Recorder button to start detection.</li>
+            <li><span class="tip-number"></span> Stay calm and tap the Voice Recorder button again to finish recording.</li>
+            <li><span class="tip-number"></span> Please ensure your breathing sound is clear without background noise.</li>
+          </ol>
+        </div>
+      </div>
+    </header>
+
+    <section class="measure-top-section">
+      <div class="mic-button-container">
+        <!-- Record Button -->
+        <button id="mic-btn" class="mic-btn" type="button" aria-label="Start microphone">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0V3z"/>
+            <path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5z"/>
+          </svg>
+        </button>
+
+        <!-- Upload Button -->
+        <button id="upload-btn" class="mic-btn" type="button" aria-label="Upload audio file" title="Upload audio">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+            <path d="M.5 9.9a.5.5 0 0 1 .5.5V13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V10.4a.5.5 0 0 1 1 0V13a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V10.4a.5.5 0 0 1 .5-.5"/>
+            <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V10.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+          </svg>
+        </button>
+        <input type="file" id="file-input" accept="audio/*" hidden />
+      </div>
+
+      
+
+      <div class="live-stats">
+        <div class="stat-box">
+          <p><strong><span id="bpm-value">--</span></strong> BPM</p>
+          <span>Breathing Rate</span>
+        </div>
+        <div class="stat-box">
+          <p><strong>--</strong> %</p>
+          <span>Stress</span>
+        </div>
+      </div>
+
+      <div class="waveform-container">
+        <canvas id="waveformCanvas" aria-label="Waveform visualization"></canvas>
+      </div>
+    </section>
+
+    <section class="measure-bottom-section">
+      <div class="measure-status">
+        <img
+          src="{{ url_for('static', filename='images/voxify_logo.png') }}"
+          alt="Voxify Logo"
+          class="status-logo"
+          id="status-logo"
+        />
+        <div class="status-text">
+          <h3 id="status-title">Tap the mic to start</h3>
+          <p id="status-subtitle">Hold your device close to the source of breathing sound</p>
+        </div>
+      </div>
+
+      <p class="status-hint">
+        The mic button will turn <span class="green-text">green</span> when recording.<br>
+        You can also <span class="green-text">upload an audio file</span> instead.
+      </p>
+    </section>
+  </div>
+
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{{ url_for('static', filename='js/measuring.js') }}"></script>
+</body>
+</html>

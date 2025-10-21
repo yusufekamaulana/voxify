@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Voxify - Report Result</title>
+
+  <link rel="icon" href="{{ url_for('static', filename='images/voxify_logo.png') }}?v=2" type="image/png" sizes="32x32">
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* === Breathing Background Animation === */
+    @keyframes breathe {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body.report-result-page-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      color: #212529;
+      background: linear-gradient(120deg, #cce5ff, #f0f9ff, #d6f5f0);
+      background-size: 200% 200%;
+      animation: breathe 12s ease-in-out infinite;
+      overflow-x: hidden;
+    }
+
+    /* === Logo Section === */
+    .auth-logo {
+      width: 120px;
+      height: 120px;
+      margin-top: 40px;
+      margin-bottom: 25px;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+      animation: fadeInDown 1.2s ease;
+    }
+
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === Report Box === */
+    .report-result-container {
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+      width: 90%;
+      max-width: 1200px;
+      padding: 3rem 3.5rem;
+      box-sizing: border-box;
+      animation: fadeInUp 1.5s ease;
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(60px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .report-result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    .header-icon {
+      text-decoration: none;
+      color: #212529;
+      transition: color 0.2s ease;
+    }
+    .header-icon:hover { color: #007bff; }
+
+    .page-title {
+      font-size: 2rem;
+      font-weight: 600;
+      text-align: center;
+      width: 100%;
+    }
+
+    main.report-result-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 2.2rem;
+      flex-wrap: wrap;
+    }
+
+    .report-result-left, .report-result-right {
+      flex: 1;
+      min-width: 420px;
+    }
+
+    .result-card {
+      background: #f8f9fa;
+      border-radius: 18px;
+      padding: 1.8rem 2rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.25s ease;
+    }
+    .result-card:hover { transform: translateY(-5px); }
+
+    .result-card h2 {
+      margin-top: 0;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    /* === Probability Bars === */
+    .probability-item { margin-bottom: 1.1rem; }
+    .probability-item img {
+      width: 28px;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+
+    .prob-bar {
+      background: #dee2e6;
+      border-radius: 10px;
+      height: 10px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .prob-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #007bff, #00b894);
+      border-radius: 10px;
+      transition: width 0.6s ease;
+    }
+
+    .pneumonia-highlight strong {
+      color: #007bff;
+      font-weight: 600;
+    }
+
+    .recording-details .details-list p {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+      color: #333;
+    }
+
+    /* === Right Card === */
+    .disease-detail {
+      background: linear-gradient(180deg, #fdfdfd 0%, #f5f6fa 100%);
+    }
+
+    .detail-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .detail-header h2 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .detail-action-icon svg { color: #007bff; }
+
+    .disease-detail p {
+      font-size: 1rem;
+      color: #444;
+      margin: 0.3rem 0;
+      line-height: 1.5;
+    }
+
+    .advices p {
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.5;
+      margin: 0.3rem 0;
+    }
+
+    .disclaimer-text {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+
+    /* === Responsive === */
+    @media (max-width: 1024px) {
+      .report-result-content { flex-direction: column; }
+      .report-result-left, .report-result-right { width: 100%; }
+    }
+
+    @media (max-width: 600px) {
+      .auth-logo { width: 90px; height: 90px; }
+      .report-result-container { padding: 2rem; border-radius: 20px; }
+      .page-title { font-size: 1.6rem; }
+      .result-card h2 { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+
+  <!-- Voxify Logo -->
+  <img src="{{ url_for('static', filename='images/voxify_logo.png') }}" 
+       alt="Voxify Logo" class="auth-logo">
+       
+<body class="report-result-page-body">
+
+  <!-- Report Container -->
+  <div class="report-result-container">
+    <header class="report-result-header">
+      <a href="{{ url_for('home') }}" class="header-icon" aria-label="Home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146Z"/>
+        </svg>
+      </a>
+      <h1 class="page-title">Report Result</h1>
+    </header>
+
+    <main class="report-result-content">
+      <!-- LEFT -->
+      <div class="report-result-left">
+        <div class="result-card disease-probability">
+          <h2>Disease Probability Analysis</h2>
+          <div class="probability-list">
+            {% set icons = {
+              'Bronchiectasis': 'icon_bronchiectasis.png',
+              'Bronchiolitis': 'icon_bronchiolitis.png',
+              'COPD': 'icon_copd.png',
+              'Healthy': 'icon_healthy.png',
+              'Pneumonia': 'icon_pneumonia.png',
+              'URTI': 'icon_urti.png'
+            } %}
+            {% for label, prob in hasil_pred.items() %}
+              {% set percent = (prob * 100) | round(2) %}
+              <div class="probability-item {% if label == label_pred %}pneumonia-highlight{% endif %}">
+                <img src="{{ url_for('static', filename='images/' + icons[label]) }}" alt="{{ label }} Icon">
+                {% if label == label_pred %}
+                  <strong>{{ label }} : {{ percent }}%</strong>
+                {% else %}
+                  <span>{{ label }} : {{ percent }}%</span>
+                {% endif %}
+                <div class="prob-bar"><div class="prob-bar-fill" style="width: {{ percent }}%;"></div></div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="result-card recording-details">
+          <h2>Recording Details</h2>
+          <div class="details-list">
+            <p><strong>Filename:</strong> <span>{{ filename or 'recorded.wav' }}</span></p>
+            <p><strong>Date & Time:</strong> <span>{{ waktu }}</span></p>
+            <p><strong>Duration:</strong> <span>{{ duration }} seconds</span></p>
+            <p><strong>Predicted Disease:</strong> <span>{{ label_pred or 'Unknown' }}</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="report-result-right">
+        <div class="result-card disease-detail">
+          <div class="detail-header">
+            <h2>{{ label_pred }}</h2>
+            <div class="detail-action-icon">
+              <!-- <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
+                   class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+              </svg> -->
+            </div>
+          </div>
+
+          {% if label_pred == "Pneumonia" %}
+            <p>Pneumonia is an infection that inflames the air sacs in one or both lungs.</p>
+          {% elif label_pred == "COPD" %}
+            <p>Chronic Obstructive Pulmonary Disease (COPD) causes obstructed airflow.</p>
+          {% elif label_pred == "Healthy" %}
+            <p>Your breathing pattern appears healthy. Maintain a balanced lifestyle.</p>
+          {% elif label_pred == "Bronchiectasis" %}
+            <p>Bronchiectasis causes enlargement of airways with chronic cough.</p>
+          {% elif label_pred == "Bronchiolitis" %}
+            <p>Bronchiolitis affects small airways, often in infants. Rest and hydration help.</p>
+          {% elif label_pred == "URTI" %}
+            <p>Upper Respiratory Tract Infection involves cough and nasal congestion.</p>
+          {% else %}
+            <p>Unable to retrieve disease description.</p>
+          {% endif %}
+        </div>
+
+        <div class="result-card advices">
+          <h2>Personalized Advices</h2>
+          <p class="disclaimer-text"><strong>Disclaimer:</strong> Always follow your healthcare provider's guidance.</p>
+          <p>Get enough rest, stay hydrated, avoid smoking, and complete all medications as prescribed.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
