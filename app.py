@@ -3,9 +3,6 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from werkzeug.utils import secure_filename
 import soundfile as sf
-from pydub import AudioSegment
-from pydub.utils import which
-
 
 # ====================================================
 # FLASK CONFIGURATION
@@ -17,8 +14,11 @@ app.secret_key = os.getenv("VOXIFY_SECRET_KEY", "dev_secret_key")  # safe fallba
 # ====================================================
 # KONFIGURASI FFmpeg untuk Pydub
 # ====================================================
-FFMPEG_BIN = r"C:\\Users\\Zoen\\Downloads\\ffmpeg-8.0-essentials_build\\ffmpeg-8.0-essentials_build\\bin"
+FFMPEG_BIN = "ffmpeg-8.0-essentials_build/ffmpeg-8.0-essentials_build/bin/"
 os.environ["PATH"] += os.pathsep + FFMPEG_BIN
+
+from pydub import AudioSegment
+from pydub.utils import which
 
 AudioSegment.converter = which("ffmpeg") or os.path.join(FFMPEG_BIN, "ffmpeg.exe")
 AudioSegment.ffprobe   = which("ffprobe") or os.path.join(FFMPEG_BIN, "ffprobe.exe")
@@ -238,6 +238,64 @@ def history():
         return jsonify({"error": "User not logged in"}), 401
     history = load_history().get(username, [])
     return jsonify(history)
+
+from utils.filter_model import predict_filter
+@app.route("/filter", methods=["POST"])
+def filter_sound():
+    if "audio_file" not in request.files:
+        return jsonify({"error": "No audio file uploaded"}), 400
+
+    file = request.files["audio_file"]
+    if file.filename == "":
+        return jsonify({"error": "Empty filename"}), 400
+    if not allowed_file(file.filename):
+        return jsonify({"error": "Unsupported file type"}), 400
+
+    input_path = os.path.join(UPLOAD_FOLDER, secure_filename(file.filename))
+    file.save(input_path)
+
+    temp_wav = os.path.join(UPLOAD_FOLDER, "converted.wav")
+    try:
+        audio = AudioSegment.from_file(input_path)
+        audio.export(temp_wav, format="wav")
+    except Exception as e:
+        import traceback; traceback.print_exc()
+        return jsonify({"error": f"Gagal konversi audio: {str(e)}"}), 500
+
+    # =====================================================
+    # Tahap: Jalankan Filter Noise
+    # =====================================================
+    try:
+        filter_result = predict_filter(temp_wav)
+        print(f"[FILTER] {filter_result['hasil']}")
+
+        # Jika bukan suara napas, langsung kembalikan respons
+        if filter_result["label"] == "Non-Respiratory":
+            return jsonify({
+                "status": "rejected",
+                "message": filter_result["hasil"],
+                "prob": filter_result["prob"]
+            }), 200
+
+        # Jika valid → lanjutkan ke halaman measuring atau prediksi
+        session["filter_result"] = filter_result
+        return jsonify({
+            "status": "accepted",
+            "message": filter_result["hasil"],
+            "prob": filter_result["prob"]
+        }), 200
+
+    except Exception as e:
+        import traceback; traceback.print_exc()
+        return jsonify({"error": f"Gagal menjalankan filter: {str(e)}"}), 500
+
+    finally:
+        try:
+            os.remove(input_path)
+            os.remove(temp_wav)
+        except Exception:
+            pass
+
 
 # ====================================================
 # MAIN ENTRY

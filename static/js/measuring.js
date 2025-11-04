@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
   // === DOM ELEMENTS ===
-  const micBtn         = document.getElementById('mic-btn');
-  const uploadBtn      = document.getElementById('upload-btn');
-  const fileInput      = document.getElementById('file-input');
-  const statusLogo     = document.getElementById('status-logo');
-  const statusTitle    = document.getElementById('status-title');
+  const micBtn = document.getElementById('mic-btn');
+  const uploadBtn = document.getElementById('upload-btn');
+  const fileInput = document.getElementById('file-input');
+  const statusLogo = document.getElementById('status-logo');
+  const statusTitle = document.getElementById('status-title');
   const statusSubtitle = document.getElementById('status-subtitle');
-  const bpmValue       = document.getElementById('bpm-value');
-  const canvas         = document.getElementById('waveformCanvas');
-  const ctx            = canvas.getContext('2d');
+  const bpmValue = document.getElementById('bpm-value');
+  const canvas = document.getElementById('waveformCanvas');
+  const ctx = canvas.getContext('2d');
 
-  const tipsBtn          = document.getElementById('tips-btn');
+  const tipsBtn = document.getElementById('tips-btn');
   const measureTipsPopup = document.getElementById('measure-tips-popup');
-  const tipsCloseBtn     = document.getElementById('tips-close-btn');
+  const tipsCloseBtn = document.getElementById('tips-close-btn');
 
   // === APP STATE ===
   const TOTAL_SECONDS = 10;
@@ -211,6 +211,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (blob) {
         const formData = new FormData();
         formData.append('audio_file', blob, 'recorded.wav');
+
+        // --- [Tambahan: cek dengan model filter dulu] ---
+        const filterResponse = await fetch('/filter', { method: 'POST', body: formData });
+        const filterData = await filterResponse.json();
+
+        if (filterData.status === 'rejected') {
+          Swal.close();
+          await swalError('Not a Breathing Sound', filterData.message || 'Please try again.');
+          return;
+        }
+        // ------------------------------------------------
+
+        // Jika lolos filter → lanjut ke prediksi penyakit
         const response = await fetch('/predict', { method: 'POST', body: formData });
         if (response.redirected) {
           Swal.close();
@@ -252,6 +265,18 @@ document.addEventListener('DOMContentLoaded', () => {
         swalLoadingPredict();
         const formData = new FormData();
         formData.append('audio_file', file);
+
+        // --- [Tambahan: cek dengan model filter dulu] ---
+        const filterResponse = await fetch('/filter', { method: 'POST', body: formData });
+        const filterData = await filterResponse.json();
+
+        if (filterData.status === 'rejected') {
+          Swal.close();
+          await swalError('Not a Breathing Sound', filterData.message || 'Please try again.');
+          return;
+        }
+        // ------------------------------------------------
+
         const response = await fetch('/predict', { method: 'POST', body: formData });
         if (response.redirected) {
           Swal.close();

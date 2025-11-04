@@ -78,5 +78,45 @@
       "duration": 64.67,
       "label_pred": "COPD"
     }
+  ],
+  "zoen@gmail.com": [
+    {
+      "filename": "1-100210-B-36.wav",
+      "timestamp": "2025-11-04 11:18:04",
+      "duration": 0.37,
+      "label_pred": "COPD"
+    }
+  ],
+  "Yusuf": [
+    {
+      "filename": "101_1b1_Al_sc_Meditron.wav",
+      "timestamp": "2025-11-04 11:28:37",
+      "duration": 20.0,
+      "label_pred": "Bronchiectasis"
+    },
+    {
+      "filename": "1-100210-B-36.wav",
+      "timestamp": "2025-11-04 11:28:53",
+      "duration": 5.0,
+      "label_pred": "COPD"
+    },
+    {
+      "filename": "1-100210-B-36.wav",
+      "timestamp": "2025-11-04 11:30:56",
+      "duration": 5.0,
+      "label_pred": "COPD"
+    },
+    {
+      "filename": "101_1b1_Al_sc_Meditron.wav",
+      "timestamp": "2025-11-04 11:36:47",
+      "duration": 20.0,
+      "label_pred": "Bronchiectasis"
+    },
+    {
+      "filename": "101_1b1_Al_sc_Meditron.wav",
+      "timestamp": "2025-11-04 12:45:45",
+      "duration": 20.0,
+      "label_pred": "Bronchiectasis"
+    }
   ]
 }
